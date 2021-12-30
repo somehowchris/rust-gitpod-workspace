@@ -1,5 +1,5 @@
 [dependencies]
-cargo-watch = "8.1.0" 
+cargo-watch = "8.1.1" 
 cargo-outdated = "0.10.2"  
 cargo-audit = "0.16.0" 
 diesel_cli = "1.4.1"  
