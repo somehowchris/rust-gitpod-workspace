@@ -1,0 +1,14 @@
+
+tasks:
+  - init: docker build .
+
+vscode:
+  extensions:
+    - ms-azuretools.vscode-docker
+    - rust-lang.rust
+    - pinage404.rust-extension-pack
+    - belfz.search-crates-io
+    - webfreak.debug
+    - Swellaby.vscode-rust-test-adapter
+    - sndst00m.markdown-github-dark-pack
+    - bierner.markdown-preview-github-styles
