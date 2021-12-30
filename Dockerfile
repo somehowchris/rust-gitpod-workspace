@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full:commit-f2d623ca9d270c2ce8560d2ca0f9ce71b105aff2
+FROM gitpod/workspace-full@sha256:4713c384ce8be4b0cf1e413b6c860e0d18eb0718a8d9a1f16c302be6f4e697f7
 
 SHELL ["/bin/bash", "-c"]
 
