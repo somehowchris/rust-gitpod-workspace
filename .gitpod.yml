@@ -1,0 +1,10 @@
+
+tasks:
+  - init: docker build .
+  
+vscode:
+  extensions:
+    - ms-azuretools.vscode-docker
+    - rust-lang.rust
+    - pinage404.rust-extension-pack
+    - belfz.search-crates-io
