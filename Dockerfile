@@ -13,7 +13,7 @@ RUN rustup default nightly
 RUN rustup default stable
 
 RUN rustup component add clippy rls rustfmt rust-analysis
-#RUN cargo install cargo-watch cargo-outdated cargo-audit diesel_cli cargo-binstall cargo-geiger cargo-all-features cargo-whatfeatures cargo-spellcheck cargo-udeps flamegraph --force
+RUN cargo install cargo-watch cargo-outdated cargo-audit diesel_cli cargo-binstall cargo-geiger cargo-all-features cargo-whatfeatures cargo-spellcheck cargo-udeps flamegraph --force
 
 RUN sudo apt-get update && \
     sudo apt-get install -y \
