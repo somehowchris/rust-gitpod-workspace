@@ -2,7 +2,6 @@ FROM gitpod/workspace-full@sha256:46859378f3067e50e8d9509e270f67a0447bb28f5d2a2f
 
 SHELL ["/bin/bash", "-c"]
 
-RUN set -x shl
 ENV DOCKER_BUILDKIT=1
 RUN mkdir -p /home/gitpod/.docker/cli-plugins
 ADD https://github.com/docker/buildx/releases/download/v0.6.1/buildx-v0.6.1.linux-amd64 /home/gitpod/.docker/cli-plugins/docker-buildx
@@ -13,8 +12,21 @@ RUN rustup default nightly
 RUN rustup default stable
 
 RUN rustup component add clippy rls rustfmt rust-analysis
-RUN cargo install cargo-watch cargo-outdated cargo-audit diesel_cli cargo-binstall cargo-geiger cargo-all-features cargo-whatfeatures cargo-spellcheck cargo-udeps flamegraph --force
-
+RUN cargo install \
+    cargo-watch \
+    cargo-outdated \
+    cargo-audit \
+    cargo-binstall \
+    cargo-geiger \
+    cargo-all-features \
+    cargo-whatfeatures \
+    cargo-spellcheck \
+    cargo-udeps \
+    cargo-outdated\
+    cargo-whatfeatures\
+    cargo-edit\
+    flamegraph --force
+RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
 RUN sudo apt-get update && \
     sudo apt-get install -y \
         libssl-dev \
@@ -22,7 +34,12 @@ RUN sudo apt-get update && \
         pkg-config \
         libpython3.6 \
         rust-lldb \
-    && sudo rm -rf /var/lib/apt/lists/*
+        jq yq\
+        snapd\
+        libmysqlclient-dev default-mysql-client\
+        cron\
+    && sudo rm -rf /var/lib/apt/lists/*\
+    && sudo snap install gh
 
 ENV RUST_LLDB=/usr/bin/lldb-11
 
