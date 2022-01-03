@@ -16,8 +16,9 @@ Heres a summary of what's done:
  - installs buildah and podman
  - Installs and updates rust stable and nightly
  - Adds the rustup components clippy, rustfmt, rls and rust-analysis
- - Installs the binaries of diesel_cli, cargo-watch, cargo-outdated, cargo-audit, cargo-binstall, cargo-geiger, cargo-all-features, cargo-whatfeatures, cargo-spellcheck, cargo-udeps, flamegraph
+ - Installs the binaries of diesel_cli, cargo-watch, cargo-outdated, cargo-audit, cargo-binstall, cargo-geiger, cargo-all-features, cargo-whatfeatures, cargo-spellcheck, cargo-udeps, flamegraph, cargo-edit, cargo-whatfeatures
  - Adds debugging support for rust (according to https://www.gitpod.io/docs/languages/rust#debugging) within vs code
+ - Installs jq, yq and gh-cli
 
 ### How to get it setup
 
@@ -25,7 +26,7 @@ This approach let's you be notified when this image updates and let's you opt in
 
 First let's create a `.gitpod.Dockerfile` file (or where and however you would save and name it)
 ```dockerfile
-FROM chweicki/gitpod-rust-workspace:0.0.1
+FROM chweicki/gitpod-rust-workspace:0.0.2
 ```
 
 Next lets add the following lines to your `.gitpod.yml` file:
