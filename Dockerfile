@@ -34,12 +34,12 @@ RUN sudo apt-get update && \
         pkg-config \
         libpython3.6 \
         rust-lldb \
-        jq yq\
+        jq\
         snapd\
         libmysqlclient-dev default-mysql-client\
         cron\
     && sudo rm -rf /var/lib/apt/lists/*\
-    && sudo snap install gh
+    && sudo snap install gh yq
 
 ENV RUST_LLDB=/usr/bin/lldb-11
 
