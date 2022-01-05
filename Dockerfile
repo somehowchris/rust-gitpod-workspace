@@ -27,19 +27,24 @@ RUN cargo install \
     cargo-edit\
     flamegraph --force
 RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
-RUN sudo apt-get update && \
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg\
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64\
+    && add-apt-repository ppa:rmescandon/yq\
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null\
+    && sudo apt update \
+    && sudo apt-get update && \
     sudo apt-get install -y \
         libssl-dev \
         libxcb-composite0-dev \
         pkg-config \
         libpython3.6 \
         rust-lldb \
-        jq\
+        jq yq\
         snapd\
         libmysqlclient-dev default-mysql-client\
         cron\
-    && sudo rm -rf /var/lib/apt/lists/*\
-    && sudo snap install gh yq
+        gh\
+    && sudo rm -rf /var/lib/apt/lists/*
 
 ENV RUST_LLDB=/usr/bin/lldb-11
 
