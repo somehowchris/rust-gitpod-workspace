@@ -11,7 +11,7 @@ RUN sudo docker buildx create --use
 RUN rustup default nightly
 RUN rustup default stable
 
-RUN rustup component add clippy rls rustfmt rust-analysis
+RUN rustup component add clippy rls rustfmt rust-analysis rust-src
  
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
     && sudo add-apt-repository ppa:rmescandon/yq \
