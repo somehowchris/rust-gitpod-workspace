@@ -12,22 +12,10 @@ RUN rustup default nightly
 RUN rustup default stable
 
 RUN rustup component add clippy rls rustfmt rust-analysis
-RUN cargo install \
-    cargo-watch \
-    cargo-outdated \
-    cargo-audit \
-    cargo-binstall \
-    cargo-geiger \
-    cargo-all-features \
-    cargo-whatfeatures \
-    cargo-spellcheck \
-    cargo-udeps \
-    cargo-outdated\
-    cargo-whatfeatures\
-    cargo-edit\
-    flamegraph --force
-RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg\
+ 
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
+    && sudo add-apt-repository ppa:rmescandon/yq \
+    && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg\
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null\
     && sudo apt update \
     && sudo apt-get update && \
@@ -37,7 +25,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
         pkg-config \
         libpython3.6 \
         rust-lldb \
-        jq\
+        jq yq\
         snapd\
         libmysqlclient-dev default-mysql-client\
         cron\
@@ -67,3 +55,19 @@ RUN cp /usr/share/containers/containers.conf /etc/containers/containers.conf \
     && sed -i '/^#mount_program = "\/usr\/bin\/fuse-overlayfs"/ a mount_program = "\/usr\/bin\/fuse-overlayfs"' /etc/containers/storage.conf
 
 USER gitpod
+
+RUN cargo install \
+    cargo-watch \
+    cargo-outdated \
+    cargo-audit \
+    cargo-binstall \
+    cargo-geiger \
+    cargo-all-features \
+    cargo-whatfeatures \
+    cargo-spellcheck \
+    cargo-udeps \
+    cargo-outdated\
+    cargo-whatfeatures\
+    cargo-edit\
+    flamegraph --force
+RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
