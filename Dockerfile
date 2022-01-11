@@ -34,6 +34,22 @@ RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
 
 ENV RUST_LLDB=/usr/bin/lldb-11
 
+RUN cargo install \
+    cargo-watch \
+    cargo-outdated \
+    cargo-audit \
+    cargo-binstall \
+    cargo-geiger \
+    cargo-all-features \
+    cargo-whatfeatures \
+    cargo-spellcheck \
+    cargo-udeps \
+    cargo-outdated\
+    cargo-whatfeatures\
+    cargo-edit\
+    flamegraph --force
+RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
+
 USER root
 
 RUN apt update && apt install -y slirp4netns fuse-overlayfs
@@ -55,19 +71,3 @@ RUN cp /usr/share/containers/containers.conf /etc/containers/containers.conf \
     && sed -i '/^#mount_program = "\/usr\/bin\/fuse-overlayfs"/ a mount_program = "\/usr\/bin\/fuse-overlayfs"' /etc/containers/storage.conf
 
 USER gitpod
-
-RUN cargo install \
-    cargo-watch \
-    cargo-outdated \
-    cargo-audit \
-    cargo-binstall \
-    cargo-geiger \
-    cargo-all-features \
-    cargo-whatfeatures \
-    cargo-spellcheck \
-    cargo-udeps \
-    cargo-outdated\
-    cargo-whatfeatures\
-    cargo-edit\
-    flamegraph --force
-RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
