@@ -49,25 +49,3 @@ RUN cargo install \
     cargo-edit\
     flamegraph --force
 RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
-
-USER root
-
-RUN apt update && apt install -y slirp4netns fuse-overlayfs
-
-RUN . /etc/os-release \
-    && sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list" \
-    && curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key" | apt-key add - \
-    && apt-get install --reinstall ca-certificates \
-    && mkdir /usr/local/share/ca-certificates/cacert.org \
-    && wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt \
-    && update-ca-certificates \
-    && apt-get update \
-    && apt-get -y upgrade \
-    && apt-get -y install podman buildah
-
-RUN cp /usr/share/containers/containers.conf /etc/containers/containers.conf \
-    && sed -i '/^#cgroup_manager = "systemd"/ a cgroup_manager = "cgroupfs"' /etc/containers/containers.conf \
-    && sed -i '/^driver = "vfs"/ c\driver = "overlay"' /etc/containers/storage.conf\
-    && sed -i '/^#mount_program = "\/usr\/bin\/fuse-overlayfs"/ a mount_program = "\/usr\/bin\/fuse-overlayfs"' /etc/containers/storage.conf
-
-USER gitpod
