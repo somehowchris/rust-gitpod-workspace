@@ -1,6 +1,6 @@
 FROM gitpod/workspace-full@sha256:46859378f3067e50e8d9509e270f67a0447bb28f5d2a2f0c723dc916411a46c8
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-cl"]
 
 ENV DOCKER_BUILDKIT=1
 RUN mkdir -p /home/gitpod/.docker/cli-plugins
