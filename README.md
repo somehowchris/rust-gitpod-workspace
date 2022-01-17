@@ -11,14 +11,12 @@ Gitpod also builds your base images everytime you create a workspace which takes
 ### What's included
 
 Heres a summary of what's done:
- - Sets the default shell to bash
- - installs docker supporting docker buildx
- - installs buildah and podman
+ - installs docker buildx
  - Installs and updates rust stable and nightly
  - Adds the rustup components clippy, rustfmt, rls and rust-analysis
- - Installs the binaries of diesel_cli, cargo-watch, cargo-outdated, cargo-audit, cargo-binstall, cargo-geiger, cargo-all-features, cargo-whatfeatures, cargo-spellcheck, cargo-udeps, flamegraph, cargo-edit, cargo-whatfeatures
+ - Installs the binaries of diesel_cli, cargo-watch, cargo-outdated, cargo-audit, cargo-binstall, cargo-geiger, cargo-all-features, cargo-whatfeatures, cargo-spellcheck, cargo-udeps, flamegraph, cargo-edit, cargo-whatfeatures, cargo-expand
  - Adds debugging support for rust (according to https://www.gitpod.io/docs/languages/rust#debugging) within vs code
- - Installs jq, yq and gh-cli
+ - Installs jq, yq, mysql client and gh-cli
 
 ### How to get it setup
 
