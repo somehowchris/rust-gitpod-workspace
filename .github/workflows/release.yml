@@ -58,7 +58,7 @@ jobs:
       - name: Build Default
         env:
           VERSION: ${{ steps.version.outputs.tag }}
-        run: docker buildx build --platform=linux/amd64 --push --tag chweicki/gitpod-rust-workspace:$VERSION .
+        run: docker buildx build --platform=linux/amd64 --push --tag chweicki/gitpod-rust-workspace:$VERSION --no-cache .
 
       - name: Update deployment status (success)
         if: success()

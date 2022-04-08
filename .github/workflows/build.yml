@@ -34,4 +34,4 @@ jobs:
       - name: Build Default
         env:
           VERSION: ${{ steps.version.outputs.tag }}
-        run: docker buildx build --platform=linux/amd64 .
+        run: docker buildx build --platform=linux/amd64 --no-cache .

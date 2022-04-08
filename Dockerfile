@@ -6,11 +6,16 @@ RUN sudo docker buildx create --use
 
 # Install nightly and components
 RUN rustup default nightly
-RUN rustup component add clippy rustfmt rust-analysis rust-src
+RUN rustup component add rustfmt rust-std rust-docs clippy cargo rust-src rust-analysis
+
+
+# Install beta and components
+RUN rustup default beta
+RUN rustup component add rustfmt rust-std rust-docs clippy cargo rust-src rust-analysis
 
 # Install latest stable and components
 RUN rustup default stable
-RUN rustup component add clippy rls rustfmt rust-analysis rust-src
+RUN rustup component add rustfmt rust-std rust-docs clippy cargo rust-src rust-analysis
  
 # Install apt packages
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
@@ -24,32 +29,46 @@ RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
         libxcb-composite0-dev \
         pkg-config \
         libpython3.6 \
-        rust-lldb \
         jq yq\
         snapd\
         libmysqlclient-dev default-mysql-client\
         cron\
         gh\
+        valgrind\
     && sudo rm -rf /var/lib/apt/lists/*
 
-# Env variable for rust debugging
-ENV RUST_LLDB=/usr/bin/lldb-11
+# Install cargo binstall
+ADD https://github.com/ryankurte/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-gnu.tgz /usr/local/bin/cargo-binstall.tgz
+RUN sudo tar -xf /usr/local/bin/cargo-binstall.tgz -C /usr/local/bin/
 
-# Install cargo binaries from source
-RUN cargo install \
-    cargo-outdated \
-    cargo-audit \
-    cargo-udeps \
-    cargo-geiger \
-    cargo-all-features \
-    cargo-whatfeatures \
-    cargo-spellcheck \
-    cargo-binstall \
-    cargo-expand \
-    cargo-edit\
-    flamegraph --force
+ARG BINSTALL="cargo binstall"
+ARG BINSTALL_FLAGS="--no-confirm"
 
-RUN cargo binstall cargo-watch --no-confirm
+RUN ${BINSTALL} cargo-watch ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-outdated ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-audit ${BINSTALL_FLAGS} \
+    & ${BINSTALL} cargo-udeps ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-geiger ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-all-features ${BINSTALL_FLAGS} \
+    & ${BINSTALL} cargo-whatfeatures ${BINSTALL_FLAGS} \
+    & ${BINSTALL} cargo-spellcheck ${BINSTALL_FLAGS} \
+    & ${BINSTALL} cargo-expand ${BINSTALL_FLAGS} \
+    & ${BINSTALL} flamegraph ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-tarpaulin ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-nextest ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-benchcmp ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-tomlfmt ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-sort ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-license ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-modules ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-profiler ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-deps ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-deadlinks ${BINSTALL_FLAGS}\
+    & ${BINSTALL} cargo-bloat ${BINSTALL_FLAGS}\
+    & wait
+
+# Install cargo binaries which are not available via cargo-binstall
+RUN cargo install cargo-linked cargo-grammarly
 
 # Install diesel cli with additional features
 RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
