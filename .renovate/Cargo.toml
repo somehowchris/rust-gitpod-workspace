@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-cargo-all-features = "1.6.0"
+cargo-all-features = "1.7.0"
 cargo-audit = "0.16.0" 
 cargo-benchcmp = "0.4.3"
 cargo-binstall = "0.6.2"
