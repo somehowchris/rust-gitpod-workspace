@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full@sha256:b484ad49d47bf70776de1d1333379d6b5f1d56c0a3fc1f31a24eb273ef772e3e
+FROM gitpod/workspace-full@sha256:e249a43d75e6852086a32e6e91745395fef5c7f818529ac72f4201be7b29c448
 
 # Use docker buildx
 ENV DOCKER_BUILDKIT=1
