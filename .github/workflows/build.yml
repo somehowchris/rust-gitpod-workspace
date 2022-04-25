@@ -18,16 +18,17 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: Log in to docker.io
+        uses: redhat-actions/podman-login@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: docker.io
 
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
         with:
           containerfiles: |
             ./Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           image: ci
