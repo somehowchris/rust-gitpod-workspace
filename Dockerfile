@@ -12,15 +12,7 @@ RUN . /etc/os-release \
     && sudo apt-get install --reinstall ca-certificates \
     && sudo mkdir /usr/local/share/ca-certificates/cacert.org \
     && sudo wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt \
-    && sudo update-ca-certificates \
-    && sudo apt-get update \
-    && sudo apt-get -y upgrade \
-    && sudo apt-get -y install podman
-
-RUN sudo cp /usr/share/containers/containers.conf /etc/containers/containers.conf \
-    && sudo sed -i '/^# cgroup_manager = "systemd"/ a cgroup_manager = "cgroupfs"' /etc/containers/containers.conf \
-    # && sed -i '/^# events_logger = "journald"/ a events_logger = "file"' /etc/containers/containers.conf \
-    && sudo sed -i '/^driver = "overlay"/ c\driver = "vfs"' /etc/containers/storage.conf
+    && sudo update-ca-certificates
 
 # Install user environment
 CMD /bin/bash -l
@@ -78,7 +70,7 @@ RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
     && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg\
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null\
     && sudo apt update \
-    && sudo apt-get update && \
+    && sudo apt upgrade -y && \
     sudo apt-get install -y \
         libssl-dev \
         libxcb-composite0-dev \
@@ -90,7 +82,13 @@ RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
         cron\
         gh\
         valgrind\
+        podman\
     && sudo rm -rf /var/lib/apt/lists/*
+
+RUN sudo cp /usr/share/containers/containers.conf /etc/containers/containers.conf \
+    && sudo sed -i '/^# cgroup_manager = "systemd"/ a cgroup_manager = "cgroupfs"' /etc/containers/containers.conf \
+    # && sed -i '/^# events_logger = "journald"/ a events_logger = "file"' /etc/containers/containers.conf \
+    && sudo sed -i '/^driver = "overlay"/ c\driver = "vfs"' /etc/containers/storage.conf
 
 # Install diesel cli with additional features
 RUN cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
