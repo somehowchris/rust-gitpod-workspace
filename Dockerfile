@@ -17,17 +17,15 @@ RUN . /etc/os-release \
 # Install user environment
 CMD /bin/bash -l
 
-# Use docker buildx
-ENV DOCKER_BUILDKIT=1
-RUN sudo docker buildx create --use
+# Install beta and components
+RUN rustup default beta
+RUN rustup component add rustfmt rust-std rust-docs clippy cargo rust-src rust-analysis
+
 
 # Install nightly and components
 RUN rustup default nightly
 RUN rustup component add rustfmt rust-std rust-docs clippy cargo rust-src rust-analysis
 
-# Install beta and components
-RUN rustup default beta
-RUN rustup component add rustfmt rust-std rust-docs clippy cargo rust-src rust-analysis
 
 # Install latest stable and components
 RUN rustup default stable
