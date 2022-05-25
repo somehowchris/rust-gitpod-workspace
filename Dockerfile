@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full@sha256:e249a43d75e6852086a32e6e91745395fef5c7f818529ac72f4201be7b29c448
+FROM gitpod/workspace-full@sha256:dc1dfc3870ca1f668c927389396bfe81fcec5a8ecf0eea2276c901856323b144
 
 # Install podman
 
