@@ -1,6 +1,6 @@
 FROM gitpod/workspace-full@sha256:dc1dfc3870ca1f668c927389396bfe81fcec5a8ecf0eea2276c901856323b144
 
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
 CMD ["/bin/bash", "-l"]
 
@@ -15,9 +15,6 @@ RUN bash /setup/install/cargo_tooling.sh
 
 COPY scripts/install/container_tooling.sh /setup/install/container_tooling.sh
 RUN bash /setup/install/container_tooling.sh
-
-COPY scripts/install/network_tooling.sh /setup/install/network_tooling.sh
-RUN bash /setup/install/network_tooling.sh
 
 COPY scripts/install/act.sh /setup/install/act.sh
 RUN bash /setup/install/act.sh
