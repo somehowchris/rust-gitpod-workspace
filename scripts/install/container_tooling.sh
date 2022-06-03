@@ -30,3 +30,30 @@ sudo sed -i '/^# cgroup_manager = "systemd"/ a cgroup_manager = "cgroupfs"' /etc
 sudo wget -O /etc/containers/storage.conf https://raw.githubusercontent.com/containers/podman/main/vendor/github.com/containers/storage/storage.conf
 sudo sed -i '/^driver = "overlay"/ c\driver = "vfs"' /etc/containers/storage.conf
     # && sed -i '/^# events_logger = "journald"/ a events_logger = "file"' /etc/containers/containers.conf \
+
+
+# docker
+sudo apt install kmod -y
+echo "export XDG_RUNTIME_DIR=$HOME/.docker/run" | sudo tee -a ~/.bashrc
+echo "export PATH=$HOME/bin:$PATH" | sudo tee -a ~/.bashrc
+echo "export DOCKER_HOST=unix:///var/run/docker.sock" | sudo tee -a ~/.bashrc
+
+export XDG_RUNTIME_DIR=$HOME/.docker/run
+export PATH=$HOME/bin:$PATH
+export DOCKER_HOST=unix:///var/run/docker.sock
+
+cat ~/.bashrc
+
+sudo echo "$USER:100000:65536" | sudo tee /etc/subuid
+sudo echo "$USER:100000:65536" | sudo tee /etc/subgid
+
+export FORCE_ROOTLESS_INSTALL="true"
+
+curl -fsSL https://get.docker.com/rootless | sh
+
+rm -f /etc/subgid
+rm -f /etc/subuid
+
+# setup docker buildx
+docker buildx create --use
+    
