@@ -42,7 +42,7 @@ export XDG_RUNTIME_DIR=$HOME/.docker/run
 export PATH=$HOME/bin:$PATH
 export DOCKER_HOST=unix:///var/run/docker.sock
 
-cat ~/.bashrc
+mkdir -p $XDG_RUNTIME_DIR
 
 sudo echo "$USER:100000:65536" | sudo tee /etc/subuid
 sudo echo "$USER:100000:65536" | sudo tee /etc/subgid

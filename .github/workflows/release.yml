@@ -14,10 +14,11 @@ jobs:
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
+      deployments: write
     strategy:
       fail-fast: true
       matrix:
-        dockerfile:
+        containerfile:
           - path: "Containerfile.codespaces"
             name: "codespaces"
           - path: "Containerfile.gitpod"
@@ -30,15 +31,6 @@ jobs:
       - name: Process version of the tag
         id: version
         uses: ncipollo/semantic-version-action@v1
-
-      
-      - name: Update deployment status (pending)
-        uses: chrnorm/deployment-status@releases/v1
-        with:
-          token: "${{ github.token }}"
-          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
-          state: "pending"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
       
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
@@ -47,12 +39,12 @@ jobs:
         with:
           cosign-release: 'v1.7.1'
 
-      - uses: chrnorm/deployment-action@releases/v1
+      - uses: chrnorm/deployment-action@v2
         name: Create GitHub deployment
         id: deployment
         with:
           token: "${{ github.token }}"
-          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          log-url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
           environment: container-image-${{ matrix.containerfile.name }}
       
       # Login against a container registry
@@ -64,12 +56,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update deployment status (in_progress)
-        uses: chrnorm/deployment-status@releases/v1
+        if: success()
+        uses: chrnorm/deployment-status@v2
         with:
-          token: "${{ github.token }}"
-          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
-          state: "in_progress"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          token: '${{ github.token }}'
+          environment-url: ${{ steps.deployment.outputs.environment_url }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: 'in_progress'
 
       - name: Buildah Action
         id: build-image
@@ -104,18 +97,18 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: chrnorm/deployment-status@releases/v1
+        uses: chrnorm/deployment-status@v2
         with:
-          token: "${{ github.token }}"
-          target_url: https://github.com/${{github.repository}}
-          state: "success"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          token: '${{ github.token }}'
+          environment-url: ${{ steps.deployment.outputs.environment_url }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: 'success'
 
-      - name: Update deployment status (failure)
-        if: failure()
-        uses: chrnorm/deployment-status@releases/v1
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
         with:
-          token: "${{ github.token }}"
-          target_url: https://github.com/${{github.repository}}
-          state: "failure"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          token: '${{ github.token }}'
+          environment-url: ${{ steps.deployment.outputs.environment_url }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: 'failure'
