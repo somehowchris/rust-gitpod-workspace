@@ -29,6 +29,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           containerfiles: |
-            ./Dockerfile
+            ./Dockerfile.codespaces
+            ./Dockerfile.gitpod
           platforms: linux/amd64,linux/arm64
           image: ci

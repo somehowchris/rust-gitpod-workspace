@@ -1,0 +1,7 @@
+FROM gitpod/workspace-full@sha256:dc1dfc3870ca1f668c927389396bfe81fcec5a8ecf0eea2276c901856323b144
+
+COPY install.sh /setup/install.sh
+
+RUN bash /install.sh
+
+CMD ["/bin/bash", "-l"]

@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/vscode/devcontainers/rust@sha256:1bdd376bf879e26bbd16354de2af3767aca79f9b3a672a91ef9b978da4ff1d45
+
+COPY install.sh /setup/install.sh
+
+RUN bash /install.sh
+
+CMD ["/bin/bash", "-l"]
