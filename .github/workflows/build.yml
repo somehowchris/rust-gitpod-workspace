@@ -10,26 +10,22 @@ on:
       - "*"
 
 jobs:
-  docker:
+  container:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        dockerfile: ["Dockerfile.codespaces", "Dockerfile.gitpod"]
     steps:
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
           submodules: recursive
 
-      - name: Log in to docker.io
-        uses: redhat-actions/podman-login@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          registry: docker.io
-
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
         with:
           containerfiles: |
-            ./Dockerfile.codespaces
-            ./Dockerfile.gitpod
+            ${{ matrix.dockerfile }}
           platforms: linux/amd64,linux/arm64
           image: ci

@@ -6,8 +6,22 @@ on:
       - "*"
 
 jobs:
-  docker:
+  container:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+    strategy:
+      fail-fast: true
+      matrix:
+        dockerfile:
+          - path: "Dockerfile.codespaces"
+            name: "codespaces"
+          - path: "Dockerfile.gitpod"
+            name: "gitpod"
     steps:
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
@@ -17,14 +31,7 @@ jobs:
         id: version
         uses: ncipollo/semantic-version-action@v1
 
-      - uses: chrnorm/deployment-action@releases/v1
-        name: Create GitHub deployment
-        id: deployment
-        with:
-          token: "${{ github.token }}"
-          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
-          environment: docker-hub
-
+      
       - name: Update deployment status (pending)
         uses: chrnorm/deployment-status@releases/v1
         with:
@@ -32,13 +39,29 @@ jobs:
           target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
           state: "pending"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      
+      # Install the cosign tool except on PR
+      # https://github.com/sigstore/cosign-installer
+      - name: Install cosign
+        uses: sigstore/cosign-installer@d6a3abf1bdea83574e28d40543793018b6035605
+        with:
+          cosign-release: 'v1.7.1'
 
-      - name: Log in to docker.io
+      - uses: chrnorm/deployment-action@releases/v1
+        name: Create GitHub deployment
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+          environment: container-image-${{ matrix.dockerfile.name }}
+      
+      # Login against a container registry
+      - name: Log into registry ghcr.io
         uses: redhat-actions/podman-login@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          registry: docker.io
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update deployment status (in_progress)
         uses: chrnorm/deployment-status@releases/v1
@@ -53,27 +76,38 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           containerfiles: |
-            ./Dockerfile
-          platforms: linux/amd64
-          image: chweicki/gitpod-rust-workspace
+            ${{ matrix.dockerfile.path }}
+          platforms: linux/amd64,linux/arm64
+          image: ghcr.io/${{ github.repository }}
           tags: ${{ steps.version.outputs.tag }}
 
-      - name: Push
-        id: push-to-quay
+      - name: Push container image
+        id: push-container-image
         uses: redhat-actions/push-to-registry@v2
         with:
           image: ${{ steps.build-image.outputs.image }}
           tags: ${{ steps.build-image.outputs.tags }}
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Sign the resulting Docker image digest except on PRs.
+      # This will only write to the public Rekor transparency log when the Docker
+      # repository is public to avoid leaking data.  If you would like to publish
+      # transparency data even for private images, pass --force to cosign below.
+      # https://github.com/sigstore/cosign
+      - name: Sign the published Docker image
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: cosign sign ghcr.io/${{ github.repository }}@${{ steps.build-and-push.outputs.digest }}
 
       - name: Update deployment status (success)
         if: success()
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://hub.docker.com/repository/docker/chweicki/gitpod-rust-workspace
+          target_url: https://github.com/${{github.repository}}
           state: "success"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
@@ -82,6 +116,6 @@ jobs:
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://hub.docker.com/repository/docker/chweicki/gitpod-rust-workspace
+          target_url: https://github.com/${{github.repository}}
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
