@@ -78,6 +78,7 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
         gh\
         valgrind\
         podman\
+        software-properties-common\
     && sudo rm -rf /var/lib/apt/lists/*
 
 # setting up podman
