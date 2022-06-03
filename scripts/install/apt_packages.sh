@@ -1,4 +1,5 @@
-set -e 
+#!/bin/bash
+set -e -x shl
 set -o pipefail
 
 # install apt packages
@@ -20,4 +21,5 @@ sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd6
         gh\
         valgrind\
         build-essential\
+        apt-utils\
     && sudo rm -rf /var/lib/apt/lists/*

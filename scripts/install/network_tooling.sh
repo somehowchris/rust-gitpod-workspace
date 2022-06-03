@@ -1,4 +1,5 @@
-set -e 
+#!/bin/bash
+set -e -x shl
 set -o pipefail
 
 # network things for thailscale etc.

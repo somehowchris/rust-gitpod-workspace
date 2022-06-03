@@ -15,12 +15,16 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        dockerfile: ["Dockerfile.codespaces", "Dockerfile.gitpod"]
+        dockerfile: ["Containerfile.codespaces", "Containerfile.gitpod"]
     steps:
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
           submodules: recursive
+      - name: Install qemu dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
 
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2

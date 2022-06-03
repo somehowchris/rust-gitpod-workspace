@@ -18,9 +18,9 @@ jobs:
       fail-fast: true
       matrix:
         dockerfile:
-          - path: "Dockerfile.codespaces"
+          - path: "Containerfile.codespaces"
             name: "codespaces"
-          - path: "Dockerfile.gitpod"
+          - path: "Containerfile.gitpod"
             name: "gitpod"
     steps:
       - name: Checkout repository and submodules
@@ -53,7 +53,7 @@ jobs:
         with:
           token: "${{ github.token }}"
           target_url: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
-          environment: container-image-${{ matrix.dockerfile.name }}
+          environment: container-image-${{ matrix.containerfile.name }}
       
       # Login against a container registry
       - name: Log into registry ghcr.io
@@ -76,10 +76,10 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           containerfiles: |
-            ${{ matrix.dockerfile.path }}
+            ${{ matrix.containerfile.path }}
           platforms: linux/amd64,linux/arm64
           image: ghcr.io/${{ github.repository }}
-          tags: ${{ steps.version.outputs.tag }}-${{ matrix.dockerfile.name }}
+          tags: ${{ steps.version.outputs.tag }}-${{ matrix.containerfile.name }}
 
       - name: Push container image
         id: push-container-image
