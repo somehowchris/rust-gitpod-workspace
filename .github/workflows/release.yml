@@ -79,7 +79,7 @@ jobs:
             ${{ matrix.dockerfile.path }}
           platforms: linux/amd64,linux/arm64
           image: ghcr.io/${{ github.repository }}
-          tags: ${{ steps.version.outputs.tag }}
+          tags: ${{ steps.version.outputs.tag }}-${{ matrix.dockerfile.name }}
 
       - name: Push container image
         id: push-container-image

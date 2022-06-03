@@ -1,0 +1,1 @@
+git config --global commit.gpgsign true

@@ -1,7 +1,21 @@
 FROM gitpod/workspace-full@sha256:dc1dfc3870ca1f668c927389396bfe81fcec5a8ecf0eea2276c901856323b144
 
-COPY scripts/install.sh /setup/install.sh
+COPY scripts/install/apt_packages.sh /setup/install/apt_packages.sh
+RUN bash /setup/install/apt_packages.sh
 
-RUN bash /setup/install.sh
+COPY scripts/install/rust_tooling.sh /setup/install/rust_tooling.sh
+RUN bash /setup/install/rust_tooling.sh
+
+COPY scripts/install/cargo_tooling.sh /setup/install/cargo_tooling.sh
+RUN bash /setup/install/cargo_tooling.sh
+
+COPY scripts/install/container_tooling.sh /setup/install/container_tooling.sh
+RUN bash /setup/install/container_tooling.sh
+
+COPY scripts/install/network_tooling.sh /setup/install/network_tooling.sh
+RUN bash /setup/install/network_tooling.sh
+
+COPY scripts/install/act.sh /setup/install/act.sh
+RUN bash /setup/install/act.sh
 
 CMD ["/bin/bash", "-l"]
