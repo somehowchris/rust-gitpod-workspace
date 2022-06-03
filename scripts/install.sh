@@ -32,32 +32,32 @@ install_via_cargo_binstall() {
     cargo binstall $1 --no-confirm
 }
 
-install_via_cargo_binstall cargo-watch
-install_via_cargo_binstall cargo-outdated
-install_via_cargo_binstall cargo-audit
-install_via_cargo_binstall cargo-udeps
-install_via_cargo_binstall cargo-geiger
-install_via_cargo_binstall cargo-all-features
-install_via_cargo_binstall cargo-whatfeatures
-install_via_cargo_binstall cargo-spellcheck
-install_via_cargo_binstall cargo-expand
-install_via_cargo_binstall flamegraph
-install_via_cargo_binstall cargo-tarpaulin
-install_via_cargo_binstall cargo-nextest
-install_via_cargo_binstall cargo-benchcmp
-install_via_cargo_binstall cargo-tomlfmt
-install_via_cargo_binstall cargo-sort
-install_via_cargo_binstall cargo-license
-install_via_cargo_binstall cargo-modules
-install_via_cargo_binstall cargo-profiler
-install_via_cargo_binstall cargo-deps
-install_via_cargo_binstall cargo-deadlinks
-install_via_cargo_binstall cargo-bloat
-install_via_cargo_binstall cargo-linked
-install_via_cargo_binstall cargo-grammarly
-
+install_via_cargo_binstall cargo-watch &\
+install_via_cargo_binstall cargo-outdated &\
+install_via_cargo_binstall cargo-audit &\
+install_via_cargo_binstall cargo-udeps &\
+install_via_cargo_binstall cargo-geiger &\
+install_via_cargo_binstall cargo-all-features &\
+install_via_cargo_binstall cargo-whatfeatures &\
+install_via_cargo_binstall cargo-spellcheck &\
+install_via_cargo_binstall cargo-expand &\
+install_via_cargo_binstall flamegraph &\
+install_via_cargo_binstall cargo-tarpaulin &\
+install_via_cargo_binstall cargo-nextest &\
+install_via_cargo_binstall cargo-benchcmp &\
+install_via_cargo_binstall cargo-tomlfmt &\
+install_via_cargo_binstall cargo-sort &\
+install_via_cargo_binstall cargo-license &\
+install_via_cargo_binstall cargo-modules &\
+install_via_cargo_binstall cargo-profiler &\
+install_via_cargo_binstall cargo-deps &\
+install_via_cargo_binstall cargo-deadlinks &\
+install_via_cargo_binstall cargo-bloat &\
+install_via_cargo_binstall cargo-linked &\
+install_via_cargo_binstall cargo-grammarly &\
 # cargo binstall does not use features
-cargo install diesel_cli --features=default,postgres,sqlite,mysql --force
+cargo install diesel_cli --features=default,postgres,sqlite,mysql --force &\
+&wait
 
 # install apt packages
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
