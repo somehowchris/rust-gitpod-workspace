@@ -1,4 +1,5 @@
-
+set -e 
+set -o pipefail
 
 # network things for thailscale etc.
 sudo curl -o /usr/bin/slirp4netns -fsSL https://github.com/rootless-containers/slirp4netns/releases/download/v1.1.12/slirp4netns-$(uname -m)
@@ -86,3 +87,5 @@ sudo cp /usr/share/containers/containers.conf /etc/containers/containers.conf \
     && sudo sed -i '/^# cgroup_manager = "systemd"/ a cgroup_manager = "cgroupfs"' /etc/containers/containers.conf \
     # && sed -i '/^# events_logger = "journald"/ a events_logger = "file"' /etc/containers/containers.conf \
     && sudo sed -i '/^driver = "overlay"/ c\driver = "vfs"' /etc/containers/storage.conf
+
+cd /usr/local && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
