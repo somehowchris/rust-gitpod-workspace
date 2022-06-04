@@ -21,7 +21,7 @@ fi
 sudo apt-get update
 sudo apt-get upgrade -y
 # needs to be installed before podman...
-sudo apt-get install -y fuse-overlayfs
+sudo apt-get install -y fuse-overlayfs qemu-user-static
 sudo apt-get install podman -y
 
 # setting up podman
@@ -32,28 +32,30 @@ sudo sed -i '/^driver = "overlay"/ c\driver = "vfs"' /etc/containers/storage.con
     # && sed -i '/^# events_logger = "journald"/ a events_logger = "file"' /etc/containers/containers.conf \
 
 
+# TODO rootless docker & docker buildx
 # docker
-sudo apt install kmod -y
-echo "export XDG_RUNTIME_DIR=$HOME/.docker/run" | sudo tee -a ~/.bashrc
-echo "export PATH=$HOME/bin:$PATH" | sudo tee -a ~/.bashrc
-echo "export DOCKER_HOST=unix:///var/run/docker.sock" | sudo tee -a ~/.bashrc
+#sudo apt install -y kmod dbus-user-session fuse-overlayfs slirp4netns
+#echo "export XDG_RUNTIME_DIR=$HOME/.docker/run" | sudo tee -a ~/.bashrc
+#echo "export PATH=$HOME/bin:$PATH" | sudo tee -a ~/.bashrc
+#echo "export DOCKER_HOST=unix:///var/run/docker.sock" | sudo tee -a ~/.bashrc
+#echo "export FORCE_ROOTLESS_INSTALL=true" | sudo tee -a ~/.bashrc
 
-export XDG_RUNTIME_DIR=$HOME/.docker/run
-export PATH=$HOME/bin:$PATH
-export DOCKER_HOST=unix:///var/run/docker.sock
+#export XDG_RUNTIME_DIR=$HOME/.docker/run
+#export PATH=$HOME/bin:$PATH
+#export DOCKER_HOST=unix:///var/run/docker.sock
 
-mkdir -p $XDG_RUNTIME_DIR
+#mkdir -p $XDG_RUNTIME_DIR
 
-sudo echo "$USER:100000:65536" >> /etc/subuid
-sudo echo "$USER:100000:65536" >> /etc/subgid
+#echo "$USER:100000:65536" >> /etc/subuid
+#echo "$USER:100000:65536" >> /etc/subgid
 
-export FORCE_ROOTLESS_INSTALL="true"
+#export FORCE_ROOTLESS_INSTALL="false"
+#printenv
+#curl -fsSL https://get.docker.com/rootless | sh
 
-curl -fsSL https://get.docker.com/rootless | sh
-
-rm -f /etc/subgid
-rm -f /etc/subuid
+#rm -f /etc/subgid
+#rm -f /etc/subuid
 
 # setup docker buildx
-docker buildx create --use
+#docker buildx create --use
     

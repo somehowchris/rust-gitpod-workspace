@@ -11,10 +11,10 @@ COPY scripts/install/rust_tooling.sh /setup/install/rust_tooling.sh
 RUN bash /setup/install/rust_tooling.sh
 
 COPY scripts/install/cargo_tooling.sh /setup/install/cargo_tooling.sh
-RUN  bash /setup/install/cargo_tooling.sh
+RUN bash /setup/install/cargo_tooling.sh
 
 COPY scripts/install/container_tooling.sh /setup/install/container_tooling.sh
-RUN bash /setup/install/container_tooling.sh
+RUN sudo bash /setup/install/container_tooling.sh
 
 COPY scripts/install/act.sh /setup/install/act.sh
 RUN bash /setup/install/act.sh

@@ -22,4 +22,5 @@ sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd6
         valgrind\
         build-essential\
         apt-utils\
+        libclang-dev\
     && sudo rm -rf /var/lib/apt/lists/*

@@ -17,6 +17,11 @@ jobs:
       matrix:
         dockerfile: ["Containerfile.codespaces", "Containerfile.gitpod"]
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          remove-dotnet: 'true'
+          remove-android: 'true'
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
