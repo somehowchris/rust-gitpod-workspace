@@ -3,7 +3,7 @@ set -e -x shl
 set -o pipefail
 
 # install cargo-binstall
-sudo wget https://github.com/ryankurte/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-gnu.tgz -O /usr/local/bin/cargo-binstall.tgz
+sudo wget https://github.com/ryankurte/cargo-binstall/releases/latest/download/cargo-binstall-$(uname -m)-unknown-linux-musl.tgz -O /usr/local/bin/cargo-binstall.tgz
 sudo tar -xf /usr/local/bin/cargo-binstall.tgz -C /usr/local/bin/
 
 # install cargo subcommands via cargo-binstall

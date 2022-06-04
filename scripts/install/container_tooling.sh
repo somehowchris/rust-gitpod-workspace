@@ -44,8 +44,8 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 
 mkdir -p $XDG_RUNTIME_DIR
 
-sudo echo "$USER:100000:65536" | sudo tee /etc/subuid
-sudo echo "$USER:100000:65536" | sudo tee /etc/subgid
+sudo echo "$USER:100000:65536" >> /etc/subuid
+sudo echo "$USER:100000:65536" >> /etc/subgid
 
 export FORCE_ROOTLESS_INSTALL="true"
 

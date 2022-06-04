@@ -6,11 +6,14 @@ rustup self update
 
 # setup rust and rust components
 install_rustup_channel_with_components() {
-    rustup default $1
+    rustup toolchain install $1
     rustup component add rustfmt rust-std rust-docs clippy cargo rust-src rust-analysis --toolchain $1
 }
 
-install_rustup_channel_with_components beta &\
-install_rustup_channel_with_components nightly &\
-install_rustup_channel_with_components stable &\
+install_rustup_channel_with_components beta-musl &\
+install_rustup_channel_with_components nightly-musl &\
+install_rustup_channel_with_components stable-musl &\
+install_rustup_channel_with_components beta-gnu &\
+install_rustup_channel_with_components nightly-gnu &\
+install_rustup_channel_with_components stable-gnu &\
 wait
