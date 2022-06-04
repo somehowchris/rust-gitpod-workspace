@@ -17,3 +17,5 @@ install_rustup_channel_with_components beta-gnu &\
 install_rustup_channel_with_components nightly-gnu &\
 install_rustup_channel_with_components stable-gnu &\
 wait
+
+rustup target add wasm32-unknown-unknown
