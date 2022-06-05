@@ -23,6 +23,17 @@ jobs:
           submodules: recursive
       - name: Install qemu dependency
         run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/lib/jvm
+          sudo rm -rf /opt/az
+          sudo rm -rf /usr/lib/google-cloud-sdk
+          sudo rm -rf /usr/lib/firefox
+          sudo rm -rf /opt/google/chrome
+          sudo rm -rf /opt/microsoft/powershell
+          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           sudo apt-get update
           sudo apt-get install -y qemu-user-static
 
