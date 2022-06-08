@@ -33,6 +33,8 @@ jobs:
           sudo rm -rf /opt/microsoft/powershell
           sudo rm -rf /opt/hostedtoolcache
           sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/az_*
+          sudo rm -rf /usr/share/php-*
           ls -a /usr/share
           ls -a /opt/
           ls -a /usr/lib/
