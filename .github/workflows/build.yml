@@ -23,6 +23,8 @@ jobs:
           submodules: recursive
       - name: Install qemu dependency
         run: |
+          set -e -x shl
+          set -o pipefail
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/lib/jvm
@@ -34,7 +36,12 @@ jobs:
           sudo rm -rf /opt/hostedtoolcache
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/share/az_*
-          sudo rm -rf /usr/share/php-*
+          sudo rm -rf /usr/share/php*
+          sudo rm -rf /usr/share/mysql*
+          sudo rm -rf /usr/lib/firefox-addons
+          sudo rm -rf /usr/lib/erlang
+          sudo rm -rf /usr/lib/valgrind
+          sudo rm -rf /opt/mssql-tools
           ls -a /usr/share
           ls -a /opt/
           ls -a /usr/lib/
