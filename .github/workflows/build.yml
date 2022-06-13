@@ -25,9 +25,6 @@ jobs:
         run: |
           set -e -x shl
           set -o pipefail
-          cd /usr/share && du -sh *
-          cd /opt && du -sh *
-          cd /usr/lib && du -sh *
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/lib/jvm
@@ -50,6 +47,9 @@ jobs:
           ls -a /usr/lib/
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          cd /usr/share && du -sh *
+          cd /opt && du -sh *
+          cd /usr/lib && du -sh *
           sudo apt-get update
           sudo apt-get install -y qemu-user-static
 
