@@ -12,10 +12,12 @@ on:
 jobs:
   container:
     runs-on: ubuntu-latest
+    timeout-minutes: 720
     strategy:
       fail-fast: true
       matrix:
         dockerfile: ["Containerfile.codespaces", "Containerfile.gitpod"]
+        arch: ["linux/amd64", "linux/arm64"]
     steps:
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
@@ -25,40 +27,49 @@ jobs:
         run: |
           set -e -x shl
           set -o pipefail
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/lib/jvm
-          sudo rm -rf /opt/az
-          sudo rm -rf /usr/lib/google-cloud-sdk
-          sudo rm -rf /usr/lib/firefox
-          sudo rm -rf /opt/google/chrome
-          sudo rm -rf /opt/microsoft/powershell
-          sudo rm -rf /opt/hostedtoolcache
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/share/az_*
-          sudo rm -rf /usr/share/php*
-          sudo rm -rf /usr/share/mysql*
-          sudo rm -rf /usr/lib/firefox-addons
-          sudo rm -rf /usr/lib/erlang
-          sudo rm -rf /usr/lib/valgrind
-          sudo rm -rf /opt/mssql-tools
-          sudo rm -rf /usr/share/swift
-          sudo rm -rf /usr/share/miniconda
+          sudo rm -rf /usr/share/dotnet &\
+          sudo rm -rf /opt/ghc &\
+          sudo rm -rf /usr/lib/jvm &\
+          sudo rm -rf /opt/az &\
+          sudo rm -rf /usr/lib/google-cloud-sdk &\
+          sudo rm -rf /usr/lib/firefox &\
+          sudo rm -rf /opt/google/chrome &\
+          sudo rm -rf /opt/microsoft/powershell &\
+          sudo rm -rf /opt/hostedtoolcache &\
+          sudo rm -rf /usr/local/lib/android &\
+          sudo rm -rf /usr/share/az_* &\
+          sudo rm -rf /usr/share/php* &\
+          sudo rm -rf /usr/share/mysql* &\
+          sudo rm -rf /usr/lib/firefox-addons &\
+          sudo rm -rf /usr/lib/erlang &\
+          sudo rm -rf /usr/lib/valgrind &\
+          sudo rm -rf /opt/mssql-tools &\
+          sudo rm -rf /usr/share/swift &\
+          sudo rm -rf /usr/share/miniconda &\
+          sudo rm -rf "/usr/local/share/boost"  &\
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"  &\
+          sudo apt-get update &\
+          wait
           ls -a /usr/share
           ls -a /opt/
           ls -a /usr/lib/
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           cd /usr/share && du -sh *
           cd /opt && du -sh *
           cd /usr/lib && du -sh *
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Buildah Action
-        uses: redhat-actions/buildah-build@v2
-        with:
-          containerfiles: |
-            ${{ matrix.dockerfile }}
-          platforms: linux/amd64,linux/arm64
-          image: ci
+      - name: Build
+        run: docker buildx build --platform ${{ matrix.arch }} -f ${{ matrix.dockerfile }} --load .
+      #- name: Buildah Action
+      #  uses: redhat-actions/buildah-build@v2
+      #  with:
+      #    containerfiles: |
+      #      ${{ matrix.dockerfile }}
+      #    platforms: ${{ matrix.arch }}
+      #    image: ci
