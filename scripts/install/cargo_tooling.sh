@@ -15,31 +15,32 @@ install_via_cargo_binstall() {
     cargo cache --remove-dir all --remove-if-younger-than 01.01.2000
 }
 
-install_via_cargo_binstall cargo-cache
-install_via_cargo_binstall cargo-watch
-install_via_cargo_binstall cargo-outdated
-install_via_cargo_binstall cargo-audit
-install_via_cargo_binstall cargo-udeps
-install_via_cargo_binstall cargo-geiger
-install_via_cargo_binstall cargo-all-features
-install_via_cargo_binstall cargo-whatfeatures
-install_via_cargo_binstall cargo-spellcheck
-install_via_cargo_binstall cargo-expand
-install_via_cargo_binstall flamegraph
-install_via_cargo_binstall cargo-tarpaulin
-install_via_cargo_binstall cargo-benchcmp
-install_via_cargo_binstall cargo-tomlfmt
-install_via_cargo_binstall cargo-sort
-install_via_cargo_binstall cargo-license
-install_via_cargo_binstall cargo-modules
-install_via_cargo_binstall cargo-profiler
-install_via_cargo_binstall cargo-deps
-install_via_cargo_binstall cargo-deadlinks
-install_via_cargo_binstall cargo-bloat
-install_via_cargo_binstall cargo-linked
-install_via_cargo_binstall cargo-grammarly
-install_via_cargo_binstall wasm-bindgen-cli
-install_via_cargo_binstall minifier
+install_via_cargo_binstall cargo-cache &\
+install_via_cargo_binstall cargo-watch &\
+install_via_cargo_binstall cargo-outdated &\
+install_via_cargo_binstall cargo-audit &\
+install_via_cargo_binstall cargo-udeps &\
+install_via_cargo_binstall cargo-geiger &\
+install_via_cargo_binstall cargo-all-features &\
+install_via_cargo_binstall cargo-whatfeatures &\
+install_via_cargo_binstall cargo-spellcheck &\
+install_via_cargo_binstall cargo-expand &\
+install_via_cargo_binstall flamegraph &\
+install_via_cargo_binstall cargo-tarpaulin &\
+install_via_cargo_binstall cargo-benchcmp &\
+install_via_cargo_binstall cargo-tomlfmt &\
+install_via_cargo_binstall cargo-sort &\ 
+install_via_cargo_binstall cargo-license &\
+install_via_cargo_binstall cargo-modules &\
+install_via_cargo_binstall cargo-profiler &\
+install_via_cargo_binstall cargo-deps &\
+install_via_cargo_binstall cargo-deadlinks &\
+install_via_cargo_binstall cargo-bloat &\
+install_via_cargo_binstall cargo-linked &\
+install_via_cargo_binstall cargo-grammarly &\
+install_via_cargo_binstall wasm-bindgen-cli &\
+install_via_cargo_binstall minifier &\
+wait
 
 sudo wget -O /usr/local/bin/minify https://wilsonl.in/minify-html/bin/0.8.0-linux-x86_64
 sudo chmod +x /usr/local/bin/minify
