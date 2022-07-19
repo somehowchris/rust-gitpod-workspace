@@ -13,6 +13,6 @@ install_rustup_channel_with_components() {
 install_rustup_channel_with_components beta &\
 install_rustup_channel_with_components nightly &\
 install_rustup_channel_with_components stable &\
+rustup target add wasm32-unknown-unknown &\
 wait
 
-rustup target add wasm32-unknown-unknown

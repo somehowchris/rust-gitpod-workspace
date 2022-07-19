@@ -29,7 +29,7 @@ install_via_cargo_binstall flamegraph &\
 install_via_cargo_binstall cargo-tarpaulin &\
 install_via_cargo_binstall cargo-benchcmp &\
 install_via_cargo_binstall cargo-tomlfmt &\
-install_via_cargo_binstall cargo-sort &\ 
+install_via_cargo_binstall cargo-sort &\
 install_via_cargo_binstall cargo-license &\
 install_via_cargo_binstall cargo-modules &\
 install_via_cargo_binstall cargo-profiler &\
