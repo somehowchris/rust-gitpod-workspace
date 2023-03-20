@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/rust@sha256:1bdd376bf879e26bbd16354de2af3767aca79f9b3a672a91ef9b978da4ff1d45
+FROM mcr.microsoft.com/vscode/devcontainers/rust@sha256:d034d737cb04337d8c472f3643febee5fc864698cd25cfc606d746ee2ebf0c43
 
 ARG DEBIAN_FRONTEND=noninteractive
 
