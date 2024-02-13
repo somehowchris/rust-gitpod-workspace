@@ -1,1 +1,1 @@
-FROM rust:1.73.0
+FROM rust:1.76.0
