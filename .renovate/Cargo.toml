@@ -6,7 +6,7 @@ publish = false
 
 [dependencies]
 cargo-all-features = "1.10.0"
-cargo-audit = "0.19.0" 
+cargo-audit = "0.20.0" 
 cargo-benchcmp = "0.4.4"
 cargo-binstall = "1.6.3"
 cargo-expand = "1.0.79" 
