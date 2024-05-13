@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full@sha256:8f1ac8afb45c5a6df057907afe94003e026dddb55d0a5b26630dae83e85da817
+FROM gitpod/workspace-full@sha256:8dd34e72ae5b9e6f60d267dd6287befc2cf5ad1a11c64e9d93daa60c952a2154
 
 ARG DEBIAN_FRONTEND=noninteractive
 
