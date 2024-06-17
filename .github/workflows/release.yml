@@ -36,7 +36,7 @@ jobs:
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
-        uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4
+        uses: sigstore/cosign-installer@b235ed95bef2a3cf9f8641bc537bc22c7cb9a3a8
         with:
           cosign-release: 'v1.7.1'
 
