@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cargo_toml = "0.19.1"
+cargo_toml = "0.20.0"
 indicatif = "0.17.8"
 yansi = "0.5.1"
