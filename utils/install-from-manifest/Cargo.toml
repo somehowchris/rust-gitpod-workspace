@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 cargo_toml = "0.20.0"
-indicatif = "0.17.8"
+indicatif = "0.18.0"
 yansi = "1.0.0"
